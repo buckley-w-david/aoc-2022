@@ -27,5 +27,13 @@ from aocd import get_data, submit
 
 
 data = get_data(year=2022, day=1, block=True)
-print(data)
+lines = data.split("\n\n")
+max = []
+for i, elf in enumerate(lines):
+    cals = sum(int(n) for n in elf.split("\n"))
+    max.append(cals)
+
+print(sum(sorted(max)[-3:]))
+
+
 # submit(answer, part="a", day=1, year=2022)
