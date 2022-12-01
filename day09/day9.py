@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-# Clear the terminal
-print("\033[2J\033[H") # ]]
 
 # Grid, Direction
 # Direction.NORTH,SOUTH,EAST,WEST,NE,SE,NW,SW

@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-# Clear the terminal
-print("\033[2J\033[H") # ]]
 
 from aoc_utils import * # type: ignore
 
