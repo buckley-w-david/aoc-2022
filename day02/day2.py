@@ -14,7 +14,7 @@ ROCKB = LOSE = "X"
 PAPERB = TIE = "Y"
 SCIB = WIN = "Z"
 
-rules = {
+score = {
     ROCKA: {
         ROCKB: 4,
         PAPERB: 8,
@@ -32,31 +32,39 @@ rules = {
     }
 }
 
-total = 0
+choice = {
+    ROCKA: {
+        LOSE: SCIB,
+        WIN: PAPERB,
+        TIE: ROCKB,
+    },
+    PAPERA: {
+        LOSE: ROCKB,
+        WIN: SCIB,
+        TIE: PAPERB,
+    },
+    SCIA: {
+        LOSE: PAPERB,
+        WIN: ROCKB,
+        TIE: SCIB,
+    }
+}
 
+# Part A
+
+total = 0
 for line in lines:
     a, b = line.split()
-    if a == ROCKA:
-        if b == LOSE:
-            choice = SCIB
-        elif b == TIE:
-            choice = ROCKB
-        elif b == WIN:
-            choice = PAPERB
-    elif a == PAPERA:
-        if b == LOSE:
-            choice = ROCKB
-        elif b == TIE:
-            choice = PAPERB
-        elif b == WIN:
-            choice = SCIB
-    elif a == SCIA:
-        if b == LOSE:
-            choice = PAPERB
-        elif b == TIE:
-            choice = SCIB
-        elif b == WIN:
-            choice = ROCKB
-    total += rules[a][choice]
+    total += score[a][b]
+
+print(total)
+
+# Part B
+
+total = 0
+for line in lines:
+    a, b = line.split()
+    c = choice[a][b]
+    total += score[a][c]
     
 print(total)
