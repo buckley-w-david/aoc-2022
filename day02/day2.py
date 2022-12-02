@@ -60,7 +60,3 @@ for line in lines:
     total += rules[a][choice]
     
 print(total)
-    
-
-
-# submit(answer, part="a", day=2, year=2022)
