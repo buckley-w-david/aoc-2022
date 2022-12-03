@@ -13,7 +13,7 @@ for i in range(0, len(lines), 3):
     a, b, c = lines[i], lines[i+1], lines[i+2]
     sa, sb, sc = set(a), set(b), set(c)
 
-    common = list(sa.intersection(b).intersection(sc))[0]
+    common = sa.intersection(b).intersection(sc).pop()
     if common.islower():
         prior = ord(common) - ord('a') + 1
     else:
