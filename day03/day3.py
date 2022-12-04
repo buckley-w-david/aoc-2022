@@ -9,11 +9,10 @@ lines = data.splitlines()
 
 t = 0
 
-for i in range(0, len(lines), 3):
-    a, b, c = lines[i], lines[i+1], lines[i+2]
+for a, b, c in chunk(lines, 3):
     sa, sb, sc = set(a), set(b), set(c)
 
-    common = sa.intersection(b).intersection(sc).pop()
+    common = sa.intersection(sb).intersection(sc).pop()
     if common.islower():
         prior = ord(common) - ord('a') + 1
     else:
