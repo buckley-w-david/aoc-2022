@@ -2,25 +2,17 @@
 
 from aoc_utils import * # type: ignore
 
-import itertools
 from aocd import get_data
 
+from pathlib import Path
+import re
 
 data = get_data(year=2022, day=7, block=True)
 lines = data.splitlines()
-g = data.split("\n\n")
-il = map(int, lines)
-ill = map(ints, lines)
-
 t = 0
 
 filesystem =  { "/": {}}
-from pathlib import Path
 path = Path("/") 
-
-import re
-
-import shlex
 
 state = 0
 for line in lines:
@@ -28,7 +20,7 @@ for line in lines:
     if m:
         state = 0
         command = m.group(1)
-        parts = shlex.split(command)
+        parts = command.split()
         if parts[0] == "cd":
             if parts[1] == "..":
                 path = path.parent
@@ -55,21 +47,21 @@ for line in lines:
             d[name] = {}
 
 sizes = []
-def calc_size(d, name) -> int:
+def calc_size(d) -> int:
     t = 0
     for k, v in d.items():
         if isinstance(v, int):
             t += v
         else:
-            t += calc_size(v, k)
-    sizes.append((name, t)) # gross
+            t += calc_size(v)
+    sizes.append(t) # gross
     return t
 
-used = calc_size(filesystem["/"], "/")
+used = calc_size(filesystem["/"])
 total = 70000000
 target = 30000000
 
 unused = total - used
 diff = target - unused
 
-print(min([s for n, s in sizes if s >= diff]))
+print(min([s for s in sizes if s >= diff]))
