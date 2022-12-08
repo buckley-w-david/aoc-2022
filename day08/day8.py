@@ -1,30 +1,59 @@
 #!/usr/bin/env python
 
-# Grid, Direction
-# Direction.NORTH,SOUTH,EAST,WEST,NE,SE,NW,SW
-# g = Grid([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
-# g.width, g.height, (y, x) in g (coords), g[(y, x)], g[(y, x)] = 5
-# for item in g => iterate over items in row major order
-# g.row_major(_with_index)() => iterate over items in row major order
-# g.column_major(_with_index)() => iterate over items in column major order
-# g.apply(func) => call func with each item
-# g.map(func) => return new Grid with results of func
-# g.ray_from((y, x), direction), yields items from a starting point in a direction
-# g.around(_with_index) => What it sounds like
-
-# Graph
-# g = Graph()
-# g.add_edge(from, to, weight=something)
-# g.dijkstra(start) => Dijkstra (has `distance_to`, and `path_to` methods)
-
-# ShuntingYard
-# Expression parser with configurable precedence for operations so you can throw out (B)EDMAS (no support for brackets)
 from aoc_utils import * # type: ignore
 
 from aocd import get_data
 
-
 data = get_data(year=2022, day=8, block=True)
-print(data)
 
-# submit(answer, part="a", day=8, year=2022)
+l = map(list, data.splitlines())
+l = [list(map(int, l)) for l in l]
+g = Grid(l)
+
+# Part 1 code
+# visible = set()
+# for x in range(g.width):
+#     visible.add((0, x))
+#     m = g[(0, x)]
+#     for point, elem in g.ray_from_with_index((0, x), Direction.SOUTH):
+#         if elem > m:
+#             visible.add(point)
+#             m = elem
+#     visible.add((g.height-1, x))
+#     m = g[(g.height-1, x)]
+#     for point, elem in g.ray_from_with_index((g.height-1, x), Direction.NORTH):
+#         if elem > m:
+#             visible.add(point)
+#             m = elem
+
+# for y in range(g.height):
+#     visible.add((y, 0))
+#     m = g[(y, 0)]
+#     for point, elem in g.ray_from_with_index((y, 0), Direction.EAST):
+#         if elem > m:
+#             visible.add(point)
+#             m = elem
+#     visible.add((y, g.width-1))
+#     m = g[(y, g.width-1)]
+#     for point, elem in g.ray_from_with_index((y, g.width-1), Direction.WEST):
+#         if elem > m:
+#             visible.add(point)
+#             m = elem
+# print(len(visible))
+
+view = []
+for point, cur in g.row_major_with_index():
+    score = 1
+    for dir in [Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST]:
+        see = 0
+        for seen in g.ray_from(point, dir):
+            see += 1
+            if seen >= cur:
+                score *= see
+                break
+        else:
+            score *= see
+                
+    view.append((score, point))
+
+print(max(view))
